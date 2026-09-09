@@ -4,25 +4,15 @@ class Solution {
         for(int i = 0; i<nums.length; i++){
             mp.put(nums[i], mp.getOrDefault(nums[i], 0)+1);
         }
-        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b) -> a[0] -b[0]);
+        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(mp.entrySet());
+        list.sort((a, b) -> b.getValue() - a.getValue());
 
-        for(Map.Entry<Integer, Integer> ent : mp.entrySet()){
-            int num = ent.getKey();
-            int count = ent.getValue();
-            pq.offer(new int[]{count, num});
-            //maintain heap size
-            if(pq.size() > k){
-                pq.poll();
-            }
+        int[] result = new int[k];
+
+        for (int i = 0; i < k; i++) {
+            result[i] = list.get(i).getKey();
         }
-        int res[] = new int[k];
-        int idx = 0;
-        while(!pq.isEmpty()){
-            int[] pair = pq.poll();
-            res[idx] = pair[1];
-            idx++;
-        }
-        return res;
+
+        return result;
     }
 }
- 
